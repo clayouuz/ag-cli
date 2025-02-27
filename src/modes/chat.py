@@ -1,13 +1,15 @@
 from src.modes import register_mode
 from src.api_client import basic_chat
+from src.utils.typewriter import typewriter_print
 
 @register_mode("chat")
 def handle_chat(client, model, temperature=0.7):
     """交互式聊天处理"""
-    print("进入AI对话模式（输入'exit'退出）")
+    typewriter_print("Establishing agent control, standby ", delay=0.01, end='')
+    typewriter_print("... ", delay=0.3, end='\n')
     while True:
         try:
-            user_input = input("\nYou: ")
+            user_input = input("\n🤓👆: ")
             if user_input.lower() in ["exit", "quit"]:
                 break
                 
@@ -17,7 +19,7 @@ def handle_chat(client, model, temperature=0.7):
                 model=model,
                 temperature=temperature
             )
-            print(f"\nAI: {response}")
+            print(f"\n🤖({model}): {response}")
             
         except KeyboardInterrupt:
             print("\n对话已终止")
