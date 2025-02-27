@@ -16,7 +16,6 @@ def handle_chat(client,args):
     temperature=args.temperature
     stream=args.stream
     log = logger.get_logger("chat_mode")
-    log.info("启动聊天模式")
     
     typewriter_print("Establishing agent control, standby ", delay=0.01, end='')
     typewriter_print("... ", delay=0.3, end='\n')
@@ -44,5 +43,4 @@ def handle_chat(client,args):
             return
         except Exception as e:
             print(f"发生错误: {str(e)}")
-            log.error(f"对话异常: {str(e)}")
             return

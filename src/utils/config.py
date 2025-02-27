@@ -1,13 +1,16 @@
 import json
 from typing import Dict, Any
-from cache import cache_dir
+from .cache import cache_dir
+
 
 _CONFIG_PATH = cache_dir / ".ag_config.json"
 _DEFAULT_CONFIG = {
     "default_model": "gpt-3.5-turbo",
     "temperature": 0.7,
     "max_history": 50,
-    "log_level": "INFO"
+    "log_level": "INFO",
+    "OPENAI_API_KEY": "改为你的API_KEY",
+    "OPENAI_API_BASE":"https://api.openai.com"
 }
 
 def get_config() -> Dict[str, Any]:
@@ -36,11 +39,3 @@ def update_config(key: str, value: Any) -> None:
     config = get_config()
     config[key] = value
     save_config(config)
-
-if __name__ == "__main__":
-    print(get_config())
-    update_config("temperature", 0.8)
-    print(get_config())
-    update_config("log_level", "DEBUG")
-    print(get_config())
-    

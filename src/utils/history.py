@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 from typing import List, Dict
-from cache import cache_dir
+from .cache import cache_dir
 
 _HISTORY_PATH = cache_dir / ".ag_history.json"
 _MAX_HISTORY = 100  # 最大保存记录数
