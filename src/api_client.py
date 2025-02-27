@@ -19,7 +19,7 @@ def get_client():
     return OpenAI(
         api_key=LLM_API_KEY,
         base_url=LLM_URL
-        )
+    )
 
 def basic_chat(client, prompt, model="gpt-3.5-turbo", temperature=0.7, stream=False):
     """基础对话功能，支持流式输出
