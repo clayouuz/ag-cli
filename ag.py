@@ -9,7 +9,7 @@ def main():
     
     try:
         handler = get_mode_handler(args.mode)
-        handler(client, args.model)
+        handler(client, args)
     except Exception as e:
         print(f"运行错误: {str(e)}")
 

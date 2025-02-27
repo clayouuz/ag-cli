@@ -21,11 +21,21 @@ def get_client():
         base_url=LLM_URL
         )
 
-def basic_chat(client, prompt, model="gpt-3.5-turbo", temperature=0.7):
-    """基础对话功能"""
+def basic_chat(client, prompt, model="gpt-3.5-turbo", temperature=0.7, stream=False):
+    """基础对话功能，支持流式输出
+    """
     response = client.chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": prompt}],
-        temperature=temperature
+        temperature=temperature,
+        stream=stream  # 是否启用流式输出
     )
-    return response.choices[0].message.content
+    if not stream:
+        # 非流式模式，直接返回完整结果
+        yield response.choices[0].message.content
+    else:
+        # 流式模式，返回一个生成器
+        for chunk in response:
+            content = chunk.choices[0].delta.content
+            if content is not None:
+                yield content

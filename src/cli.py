@@ -16,7 +16,7 @@ def parse_args():
     
     parser.add_argument(
         "--model",
-        default="gpt-3.5-turbo",
+        default="gemini-1.5-flash",
         help="指定使用的AI模型"
     )
     
@@ -27,4 +27,13 @@ def parse_args():
         help="控制生成随机性 (0-2)"
     )
     
-    return parser.parse_args()
+    parser.add_argument(
+        "--stream",
+        type=str,  # 先解析为字符串
+        default="False",  # 默认值为字符串 "False"
+        help="是否启用流式输出（True/False）",
+    )
+    args=parser.parse_args()
+    args.stream = args.stream.lower() == "true"
+    
+    return args
