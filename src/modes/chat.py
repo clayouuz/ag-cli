@@ -8,7 +8,7 @@ def handle_chat(client,args):
     """交互式聊天处理，支持流式和非流式输出
     
     Args:
-        model(str): 使用的模型名称，默认为 "gpt-3.5-turbo"
+        model(str): 使用的模型名称
         temperature(float): 生成文本的随机性，默认为 0.7
         stream(bool): 是否启用流式输出，默认为 False
     """
@@ -17,9 +17,9 @@ def handle_chat(client,args):
     stream=args.stream
     log = logger.get_logger("chat_mode")
     
-    typewriter_print("Establishing agent control, standby ", delay=0.01, end='')
-    typewriter_print("... ", delay=0.3, end='\n')
-    #wait for openAI client to be ready
+    typewriter_print("Establishing agent control, standby", delay=0.01, end='')
+    typewriter_print(" ... ", delay=0.3, end='\n')
+    #wait for client to be ready
     
     while True:
         try:
@@ -31,7 +31,8 @@ def handle_chat(client,args):
             response = ""
             for chunk in basic_chat(client, user_input, model=model, temperature=temperature, stream=stream):
                 response += chunk
-                print(chunk, end="", flush=True)  # 逐块输出
+                # print(chunk, end="", flush=True)  # 逐块输出
+                typewriter_print(chunk, delay=0.002, end="")  # 逐块输出
             print()  # 最后换行
             
             history.save_history(user_input, response, model)

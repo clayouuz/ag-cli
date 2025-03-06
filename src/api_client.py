@@ -1,29 +1,24 @@
 import os
 from openai import OpenAI
-from .utils.config import get_config, update_config
+from .utils.config import Config
 from .utils.logger import get_logger
 
-def get_client():
-    """创建并返回OpenAI客户端"""
-    config_data = get_config()
+def get_client(name="openai"):
+    """创建并返回OpenAI客户端或Gemini客户端"""
+    config = Config()
     logger=get_logger("api_client.get_client")
-    if "OPENAI_API_KEY" not in config_data:
-        raise ValueError("未找到OPENAI_API_KEY，前往.cache/ag_config.json配置文件中设置")
+    LLM_API_KEY=config.get("OPENAI_API_KEY",create=True)
+    if name=="gemini":
+        LLM_URL=config.get("GEMINI_API_BASE",create=True)
     else:
-        LLM_API_KEY=config_data["OPENAI_API_KEY"]
-    if "OPENAI_API_BASE" not in config_data:
-        LLM_URL = "https://api.openai.com"
-        logger.warning("未找到OPENAI_API_BASE，使用默认值")
-        update_config("OPENAI_API_BASE",LLM_URL)
-    else:
-        LLM_URL=config_data["OPENAI_API_BASE"]
+        LLM_URL=config.get("OPENAI_API_BASE",create=True)
         
     return OpenAI(
         api_key=LLM_API_KEY,
         base_url=LLM_URL
     )
 
-def basic_chat(client, prompt, model="gpt-3.5-turbo", temperature=0.7, stream=False):
+def basic_chat(client, prompt, model="gemini-2.0-flash", temperature=0.7, stream=False):
     """基础对话功能，支持流式输出
     """
     response = client.chat.completions.create(

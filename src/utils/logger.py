@@ -1,16 +1,17 @@
 import logging
 from logging.handlers import TimedRotatingFileHandler
 from .cache import cache_dir
-from .config import get_config
+
 
 def get_logger(name=__name__):
+    
     """获取带有文件轮转功能的日志记录器"""
     logger = logging.getLogger(name)
     if logger.handlers:
         return logger
-    
-    config_data = get_config()
-    logger.setLevel(config_data["log_level"])
+    from .config import Config
+    config = Config()
+    logger.setLevel(config.get("log_level"))
     
     log_dir = cache_dir / ".ag_logs"
     log_dir.mkdir(exist_ok=True)
