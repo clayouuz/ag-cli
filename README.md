@@ -12,6 +12,8 @@ lastmod: 2025-02-27T17:10:19Z
 
 致谢@deepseek
 
+readme待更新，更改见commit
+
 ## 使用方法
 
 运行ag.py，根据提示输入文字即可  
