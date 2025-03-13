@@ -41,28 +41,6 @@ function ag {
 
 path需要替换成`ag.py`​实际路径
 
-## 项目结构
-
-```
-.
-├── LICENSE
-├── README.md
-├── ag.py
-└── src
-    ├── __init__.py
-    ├── api_client.py
-    ├── cli.py
-    ├── modes            #模块实现
-    │   ├── __init__.py
-    │   ├── chat.py
-    │   └── text.py
-    └── utils            #脚本实现
-        ├── cache.py
-        ├── config.py
-        ├── history.py
-        ├── logger.py
-        └── typewriter.py
-```
 
 ## 扩展指南
 

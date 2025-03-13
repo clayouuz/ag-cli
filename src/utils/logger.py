@@ -9,9 +9,8 @@ def get_logger(name=__name__):
     logger = logging.getLogger(name)
     if logger.handlers:
         return logger
-    from .config import Config
-    config = Config()
-    logger.setLevel(config.get("log_level"))
+    
+    logger.setLevel("DEBUG")
     
     log_dir = cache_dir / ".ag_logs"
     log_dir.mkdir(exist_ok=True)

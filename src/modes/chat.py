@@ -1,5 +1,7 @@
 from src.modes import register_mode
-from src.api_client import basic_chat
+# from src.api_client import basic_chat
+from src.api.openai import OpenAIClient
+
 from src.utils.typewriter import typewriter_print
 from src.utils import history, logger
 
@@ -16,9 +18,10 @@ def handle_chat(client,args):
     temperature=args.temperature
     stream=args.stream
     log = logger.get_logger("chat_mode")
+    # client = OpenAIClient()
     
-    typewriter_print("Establishing agent control, standby", delay=0.01, end='')
-    typewriter_print(" ... ", delay=0.3, end='\n')
+    # typewriter_print("Establishing agent control, standby", delay=0.01, end='')
+    # typewriter_print(" ... ", delay=0.3, end='\n')
     #wait for client to be ready
     
     while True:
@@ -29,7 +32,9 @@ def handle_chat(client,args):
                 
             print(f"\n🤖({model}): ", end="", flush=True)  # 不换行并立即刷新缓冲区
             response = ""
-            for chunk in basic_chat(client, user_input, model=model, temperature=temperature, stream=stream):
+            # for chunk in client.chat(client, user_input, model=model, temperature=temperature, stream=stream):
+            for chunk in client.chat(user_input, model=model, temperature=temperature, stream=stream):
+   
                 response += chunk
                 # print(chunk, end="", flush=True)  # 逐块输出
                 typewriter_print(chunk, delay=0.002, end="")  # 逐块输出

@@ -14,6 +14,11 @@ def parse_args():
         choices=["chat", "doc"],
         help="选择运行模式"
     )
+    parser.add_argument(
+        "--api",
+        default=config.get("api", default="openai"), 
+        help="指定使用的api服务"
+    )
     
     parser.add_argument(
         "--model",
