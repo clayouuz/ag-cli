@@ -16,10 +16,15 @@ class GeminiClient(BaseAPIClient):
         config = Config()
         self.api_key = config.get("GEMINI_API_KEY")
         self.base_url = config.get("GEMINI_API_BASE")
-        self.client = genai.Client(
-            api_key=self.api_key,
-            http_options={'base_url': self.base_url}
-        )
+        try:
+            self.client = genai.Client(
+                api_key=self.api_key,
+                http_options={'base_url': self.base_url}
+            )
+        except Exception as e:
+            logger = get_logger()
+            logger.error(f"初始化Gemini客户端失败: {e}")
+            raise e
     
     def chat(self, 
              prompt: str, 
@@ -49,7 +54,7 @@ class GeminiClient(BaseAPIClient):
             yield response.text
         else:
             # 流式模式，返回一个生成器
-            response = self.client.models.generate_content(
+            response = self.client.models.generate_content_stream(
                 model=model,
                 contents=[prompt],
                 config=types.GenerateContentConfig(
@@ -61,3 +66,12 @@ class GeminiClient(BaseAPIClient):
                 content = chunk.text
                 if content is not None:
                     yield content
+                    
+    def get_models(self) -> Dict[str, Any]:
+        """获取可用的模型列表
+        
+        Returns:
+            Dict[str, Any]: 可用模型的字典
+        """
+        models = self.client.models().list()
+        return models

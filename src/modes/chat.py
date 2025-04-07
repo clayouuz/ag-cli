@@ -1,6 +1,4 @@
 from src.modes import register_mode
-# from src.api_client import basic_chat
-from src.api.openai import OpenAIClient
 
 from src.utils.typewriter import typewriter_print
 from src.utils import history, logger
@@ -42,11 +40,5 @@ def handle_chat(client,args):
             
             history.save_history(user_input, response, model)
             log.debug(f"用户输入: {user_input[:50]}... | AI响应: {response[:50]}...")
-            
-        except KeyboardInterrupt:
-            print("\n对话已终止")
-            log.warning("用户手动终止对话")
-            return
         except Exception as e:
-            print(f"发生错误: {str(e)}")
-            return
+            log.error(f"发生错误: {str(e)}")
