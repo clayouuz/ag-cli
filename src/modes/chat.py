@@ -1,7 +1,8 @@
 from src.modes import register_mode
 
 from src.utils.typewriter import typewriter_print
-from src.utils import history, logger
+from src.utils import history
+from src.utils.logger import get_logger
 
 @register_mode("chat")
 def handle_chat(client,args):
@@ -15,12 +16,7 @@ def handle_chat(client,args):
     model=args.model
     temperature=args.temperature
     stream=args.stream
-    log = logger.get_logger("chat_mode")
-    # client = OpenAIClient()
-    
-    # typewriter_print("Establishing agent control, standby", delay=0.01, end='')
-    # typewriter_print(" ... ", delay=0.3, end='\n')
-    #wait for client to be ready
+    logger = get_logger()
     
     while True:
         try:
@@ -39,6 +35,6 @@ def handle_chat(client,args):
             print()  # 最后换行
             
             history.save_history(user_input, response, model)
-            log.debug(f"用户输入: {user_input[:50]}... | AI响应: {response[:50]}...")
+            logger.debug(f"用户输入: {user_input[:50]}... | AI响应: {response[:50]}...")
         except Exception as e:
-            log.error(f"发生错误: {str(e)}")
+            logger.error(f"发生错误: {str(e)}")
