@@ -14,7 +14,7 @@ def main():
         logger.info("已启用代理服务器")
         
     client = get_client(args.api)
-    
+    logger.debug("client connected")
     try:
         handler = get_mode_handler(args.mode)
         handler(client,args)

@@ -5,7 +5,7 @@ import sys
 import os
 from logging.handlers import TimedRotatingFileHandler
 from .cache import cache_dir
-
+from .config import Config
 
 class GlobalLogger:
     """全局单例日志类"""
@@ -29,7 +29,10 @@ class GlobalLogger:
     @classmethod
     def _setup_logger(cls, logger):
         """设置日志处理器"""
-        logger.setLevel(logging.DEBUG)
+        config=Config()
+        log_level=config.get(key='log_level',default='DEBUG')
+        numeric_level = getattr(logging, log_level.upper(), None)
+        logger.setLevel(numeric_level)
         
         # 创建日志目录
         log_dir = cache_dir / ".ag_logs"

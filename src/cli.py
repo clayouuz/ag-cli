@@ -2,22 +2,39 @@ import argparse
 from src.utils.config import Config
 def parse_args():
     config = Config()
+    
     parser = argparse.ArgumentParser(
         description="AI对话命令行工具",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     
     parser.add_argument(
-        "--mode",
+        "--mode","-m",
         type=str,
         default="chat",
-        # choices=["chat", "doc"],
+        choices=["chat", "setting","stdin"],
         help="选择运行模式"
     )
+    
+    parser.add_argument(
+        "--input","-i",
+        type=str,
+        nargs='?',
+        help='mode=stdin时生效,传入管道内容或从stdin读取输入'
+    )
+    
+    parser.add_argument(
+        "--prompt","-p",
+        type=str,
+        nargs='?',
+        default='',
+        help='mode=stdin时生效'
+    )
+    
     parser.add_argument(
         "--api",
         default=config.get("api", default="openai"), 
-        help="指定使用的api服务"
+        help="指定使用的api服务,openai或gemini"
     )
     
     parser.add_argument(
@@ -39,12 +56,15 @@ def parse_args():
         default=config.get("stream"),
         help="是否启用流式输出(True/False)",
     )
+    
     parser.add_argument(
         "--use_proxy",
         type=lambda x: (str(x).lower() == 'true'), 
         default=config.get("use_proxy"),
         help='是否使用代理 (true 或 false)'
     )
+    
+
     
     args=parser.parse_args()
     from src.utils.logger import get_logger
