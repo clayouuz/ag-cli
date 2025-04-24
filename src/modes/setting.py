@@ -19,10 +19,13 @@ def handle_setting(client,args):
     # 修改配置
     while True:
         _print_config()
-        key=input("请输入要修改的配置项,输入为空则退出: ")
-        if key is None or key == "":
+        key=input("请输入要修改的配置项,输入q退出: ")
+        if key is None or key == "q":
             print("退出设置模式")
             break
-        value = input(f"请输入新的值（当前值: {config.get(key)}）: ")
+        value = input(f"请输入新的值，输入q取消（当前值 {key} : {config.get(key)} ） ")
+        if value=='abort':
+            print("取消添加配置")
+            break
         config.set(key,value)
         print(f"已将 {key} 修改为 {value}")
